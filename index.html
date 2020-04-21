@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Vue TodoList Demo</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <!-- Vue.jsを読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+    <!-- Sortable.jsを読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+    <!-- Vue.Draggableライブラリを読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.23.2/vuedraggable.umd.min.js"></script>
+    <!-- main.jsを読み込み（defer属性を追加し、HTMLパース後に読み込む） -->
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <!-- Vueアプリケーションとして認識させる要素（elプロパティで指定する要素） -->
+    <div id="app">
+        <h1 class="title">Vue TodoList Demo</h1>
+        <div class="input">
+            <!--
+                Todoを入力するテキストボックス
+                  v-model : 入力する値をVueで管理する
+                    .trim : 入力された値の前後の空白を取り除く
+                  @keydown : キーボードのキーが押された時にイベントを発生させる
+                    .enter : Enterキー
+                  v-focus : ページ読み込み時にフォーカスを当てるカスタムディレクティブ
+            -->
+            <input type="text" v-model.trim="inputTodo" @keydown.enter="addTodo()" v-focus ref="inputTodo" placeholder="Todoを入力">
+
+            <!--
+                入力されたTodoを追加するボタン
+                  @click : v-on:clickの省略形、この要素がクリックされた時に指定のイベントを発生させる。今回はaddTodoメソッド
+             -->
+            <button @click="addTodo()">追加</button>
+        </div>
+
+        <div class="todo-list">
+            <!--
+                Vueで利用するためにcomponentsで作成した<draggable>要素
+                  tag : draggableを指定したタグとして利用する
+                  :options : Vue.Draggableが利用しているSortable.jsのオプションを指定
+                    animation : 並べ替え時のアニメーション速度、ミリ秒で指定
+                    handle    : 並べ替え時にドラッグできる要素を指定
+             -->
+            <draggable tag="ul" :options="doraggableOptions">
+                <!--
+                    入力されたTodoリストを表示
+                      v-for : 指定した配列に基づいて要素を繰り返し表示する
+                        todos配列内の各データをtodo、各データのインデックスをindexとする
+                      :key ; v-bind:keyの省略形、要素の判別するためのキーを指定。今回は`index`を指定
+                 -->
+                <li class="todo" v-for="(todo, index) in todos" :key="index">
+                    <div class="sort-handle">≡</div>
+                    <!-- <label>に配列内のデータtodoのnameを表示 -->
+                    <div class="todo-name"><input type="checkbox"> <label>{{ todo.name }}</label></div>
+                    <!--
+                        指定したTodoを削除するボタン
+                          @click : v-on:clickの省略形、この要素がクリックされた時に指定のイベントを発生させる。今回はaddTodoメソッド
+                                  `index`キーの要素を削除する
+                    -->
+                    <div class="delete-todo" @click="deleteTodo(index)">×</div>
+                </li>
+            </doraggable>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+.title,
+.input {
+    text-align: center;
+}
+.input {
+    margin-bottom: 20px;
+}
+.todo-list ul {
+    width: 300px;
+    margin: 0 auto;
+    padding-left: 10px;
+}
+.todo-list li {
+    position: relative;
+    list-style: none;
+}
+.todo-list li:not(:first-child) {
+    border-top: 1px solid #efefef;
+}
+.todo-list input[type="checkbox"]:checked + label {
+    color: #aaaaaa;
+    text-decoration: line-through;
+}
+.todo {
+    display: flex;
+}
+.sort-handle,
+.todo-name,
+.delete-todo {
+    padding: 10px;
+}
+.sort-handle {
+    width: 10%;
+    text-align: center;
+    border-right: 1px solid #efefef;
+    cursor: grab;
+}
+.todo-name {
+    width: 80%;
+}
+.delete-todo {
+    width: 10%;
+    text-align: center;
+    cursor: pointer;
+}
+.sortable-chosen {
+    opacity: 0.7;
+    background-color:#dcdcdc;
+}
+.sortable-ghost {
+    opacity: 0;
+}
